@@ -19,11 +19,14 @@
 package ca.islandora.alpaca.connector.derivative;
 
 import static org.apache.camel.LoggingLevel.ERROR;
+import static org.apache.camel.LoggingLevel.DEBUG;
+import static org.apache.camel.LoggingLevel.WARN;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import ca.islandora.alpaca.support.event.AS2Event;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.Exchange;
+import org.apache.camel.http.common.HttpOperationFailedException;
 import org.apache.camel.model.dataformat.JsonLibrary;
 import org.slf4j.Logger;
 
@@ -39,6 +42,23 @@ public class DerivativeConnector extends RouteBuilder {
 
     @Override
     public void configure() {
+
+        // Retry HTTP-related error conditions for longer (exponential backoff, delay)
+        onException(HttpOperationFailedException.class)
+                .maximumRedeliveries("{{error.maxRedeliveries}}")
+                .redeliveryDelay("{{error.redeliveryDelay}}")
+                .backOffMultiplier(1.2)
+                .useExponentialBackOff()
+                .logRetryAttempted(true)
+                .retryAttemptedLogLevel(WARN)
+                .retriesExhaustedLogLevel(WARN)
+                .useOriginalMessage()
+                .log(
+                        WARN,
+                        LOGGER,
+                        "Error generating derivative with {{derivative.service.url}}: ${exception.message}\n\n${exception.stacktrace}"
+                );
+
         // Global exception handler for the indexer.
         // Just logs after retrying X number of times.
         onException(Exception.class)
@@ -52,6 +72,8 @@ public class DerivativeConnector extends RouteBuilder {
 
         from("{{in.stream}}")
             .routeId("IslandoraConnectorDerivative")
+
+            .log(DEBUG, LOGGER, "Processing request - Service URL: '{{derivative.service.url}}'")
 
             // Parse the event into a POJO.
             .unmarshal().json(JsonLibrary.Jackson, AS2Event.class)
@@ -72,6 +94,9 @@ public class DerivativeConnector extends RouteBuilder {
             .removeHeaders("*", "Authorization", "Content-Type")
             .setHeader("Content-Location", simple("${exchangeProperty.event.attachment.content.fileUploadUri}"))
             .setHeader(Exchange.HTTP_METHOD, constant("PUT"))
+
+            .log(DEBUG, LOGGER, "Processing response - Service URL: '{{derivative.service.url}}' Source URI: '${exchangeProperty.event.attachment.content.sourceUri}' File Upload URI: '${exchangeProperty.event.attachment.content.fileUploadUri}' Destination URI: '${exchangeProperty.event.attachment.content.destinationUri}'")
+
             .toD("${exchangeProperty.event.attachment.content.destinationUri}?connectionClose=true");
     }
 

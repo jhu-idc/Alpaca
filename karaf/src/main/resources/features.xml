@@ -49,6 +49,9 @@
     <bundle dependency="true">mvn:ca.islandora.alpaca/islandora-event-support/${project.version}</bundle>
 
     <bundle>mvn:ca.islandora.alpaca/islandora-connector-derivative/${project.version}</bundle>
+
+    <configfile finalname="/etc/ca.islandora.alpaca.connector.derivative.cfg">mvn:ca.islandora.alpaca/islandora-connector-derivative/${project.version}/cfg/configuration</configfile>
+
   </feature>
 
 </features>
