@@ -56,7 +56,8 @@ public class DerivativeConnector extends RouteBuilder {
                 .log(
                         WARN,
                         LOGGER,
-                        "Error generating derivative with {{derivative.service.url}}: ${exception.message}\n\n${exception.stacktrace}"
+                        "Error generating derivative with {{derivative.service.url}}: ${exception.message}" +
+                                "\n\n${exception.stacktrace}"
                 );
 
         // Global exception handler for the indexer.
@@ -95,7 +96,10 @@ public class DerivativeConnector extends RouteBuilder {
             .setHeader("Content-Location", simple("${exchangeProperty.event.attachment.content.fileUploadUri}"))
             .setHeader(Exchange.HTTP_METHOD, constant("PUT"))
 
-            .log(DEBUG, LOGGER, "Processing response - Service URL: '{{derivative.service.url}}' Source URI: '${exchangeProperty.event.attachment.content.sourceUri}' File Upload URI: '${exchangeProperty.event.attachment.content.fileUploadUri}' Destination URI: '${exchangeProperty.event.attachment.content.destinationUri}'")
+            .log(DEBUG, LOGGER, "Processing response - Service URL: '{{derivative.service.url}}' " +
+                    "Source URI: '${exchangeProperty.event.attachment.content.sourceUri}' File Upload URI: " +
+                    "'${exchangeProperty.event.attachment.content.fileUploadUri}' Destination URI: " +
+                    "'${exchangeProperty.event.attachment.content.destinationUri}'")
 
             .toD("${exchangeProperty.event.attachment.content.destinationUri}?connectionClose=true");
     }
