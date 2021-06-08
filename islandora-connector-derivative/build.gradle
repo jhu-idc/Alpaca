@@ -31,6 +31,13 @@ jar {
     }
 }
 
+artifacts {
+    archives (file('build/cfg/main/ca.islandora.alpaca.connector.derivative.cfg')) {
+        classifier 'configuration'
+        type 'cfg'
+    }
+}
+
 test {
     testLogging {
         // Uncomment the below line while debugging.

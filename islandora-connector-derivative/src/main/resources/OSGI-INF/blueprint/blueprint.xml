@@ -10,18 +10,20 @@
   <!-- OSGI blueprint property placeholder -->
   <cm:property-placeholder id="properties" persistent-id="ca.islandora.alpaca.connector.derivative" update-strategy="reload" >
     <cm:default-properties>
-      <cm:property name="error.maxRedeliveries" value="5"/>
+      <cm:property name="error.maxRedeliveries" value="10"/>
       <cm:property name="error.redeliveryDelay" value="1000"/>
       <cm:property name="error.backoff" value="1.2"/>
-      <cm:property name="in.stream" value="seda:islandora-connector.derivative-index"/>
-      <cm:property name="derivative.service.url" value="http://example.org/derivative/convert"/>
+      <cm:property name="in.stream" value="broker:queue:islandora-connector-houdini"/>
+      <cm:property name="derivative.service.url" value="http://houdini:8000/convert"/>
     </cm:default-properties>
   </cm:property-placeholder>
+
+  <reference id="broker" interface="org.apache.camel.Component" filter="(osgi.jndi.service.name=fcrepo/Broker)"/>
 
   <bean id="http" class="org.apache.camel.component.http4.HttpComponent"/>
   <bean id="https" class="org.apache.camel.component.http4.HttpComponent"/>
 
-  <camelContext id="IslandoraConnectorDerivative" xmlns="http://camel.apache.org/schema/blueprint">
+  <camelContext id="IslandoraConnectorHoudini" xmlns="http://camel.apache.org/schema/blueprint">
     <package>ca.islandora.alpaca.connector.derivative</package>
   </camelContext>
 
