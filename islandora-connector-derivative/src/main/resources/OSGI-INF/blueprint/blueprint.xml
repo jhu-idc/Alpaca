@@ -12,6 +12,7 @@
     <cm:default-properties>
       <cm:property name="error.maxRedeliveries" value="10"/>
       <cm:property name="error.redeliveryDelay" value="1000"/>
+      <cm:property name="error.backoff" value="1.2"/>
       <cm:property name="in.stream" value="broker:queue:islandora-connector-houdini"/>
       <cm:property name="derivative.service.url" value="http://houdini:8000/convert"/>
     </cm:default-properties>

@@ -47,7 +47,7 @@ public class DerivativeConnector extends RouteBuilder {
         onException(HttpOperationFailedException.class)
                 .maximumRedeliveries("{{error.maxRedeliveries}}")
                 .redeliveryDelay("{{error.redeliveryDelay}}")
-                .backOffMultiplier(1.2)
+                .backOffMultiplier("{{error.backoff}}")
                 .useExponentialBackOff()
                 .logRetryAttempted(true)
                 .retryAttemptedLogLevel(WARN)
