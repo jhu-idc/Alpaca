@@ -57,11 +57,11 @@ public class DerivativeConnector extends RouteBuilder {
                 .log(
                         WARN,
                         LOGGER,
-                        "HTTP-related error when generating derivative with {{derivative.service.url}}: $simple{exception.message}" +
-                                "\n Source URI: '$simple{exchangeProperty.event.attachment.content.sourceUri}'" +
-                                "\n Destination URI: '$simple{exchangeProperty.event.attachment.content.destinationUri}'" +
-                                "\n File Upload URI: '$simple{exchangeProperty.event.attachment.content.fileUploadUri}'" +
-                                "\n Stacktrace: \n$simple{exception.stacktrace}"
+                        "HTTP-related error when generating derivative with {{derivative.service.url}}: ${exception.message}" +
+                                "\n Source URI: '${exchangeProperty.event.attachment.content.sourceUri}'" +
+                                "\n Destination URI: '${exchangeProperty.event.attachment.content.destinationUri}'" +
+                                "\n File Upload URI: '${exchangeProperty.event.attachment.content.fileUploadUri}'" +
+                                "\n Stacktrace: \n${exception.stacktrace}"
                 );
 
         // Global exception handler for the indexer.
@@ -72,11 +72,11 @@ public class DerivativeConnector extends RouteBuilder {
             .log(
                 ERROR,
                 LOGGER,
-                    "Generic error when generating derivative with {{derivative.service.url}}: $simple{exception.message}" +
-                            "\n Source URI: '$simple{exchangeProperty.event.attachment.content.sourceUri}'" +
-                            "\n Destination URI: '$simple{exchangeProperty.event.attachment.content.destinationUri}'" +
-                            "\n File Upload URI: '$simple{exchangeProperty.event.attachment.content.fileUploadUri}'" +
-                            "\n Stacktrace: \n$simple{exception.stacktrace}"
+                    "Generic error when generating derivative with {{derivative.service.url}}: ${exception.message}" +
+                            "\n Source URI: '${exchangeProperty.event.attachment.content.sourceUri}'" +
+                            "\n Destination URI: '${exchangeProperty.event.attachment.content.destinationUri}'" +
+                            "\n File Upload URI: '${exchangeProperty.event.attachment.content.fileUploadUri}'" +
+                            "\n Stacktrace: \n${exception.stacktrace}"
             );
 
         from("{{in.stream}}")
