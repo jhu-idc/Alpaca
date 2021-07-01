@@ -53,6 +53,7 @@ public class DerivativeConnector extends RouteBuilder {
                 .retryAttemptedLogLevel(WARN)
                 .retriesExhaustedLogLevel(WARN)
                 .useOriginalMessage()
+                .handled(true)
                 .log(
                         WARN,
                         LOGGER,
@@ -67,6 +68,7 @@ public class DerivativeConnector extends RouteBuilder {
         // Just logs after retrying X number of times.
         onException(Exception.class)
             .maximumRedeliveries("{{error.maxRedeliveries}}")
+            .handled(true)
             .log(
                 ERROR,
                 LOGGER,
