@@ -43,6 +43,8 @@ public class DerivativeConnector extends RouteBuilder {
     @Override
     public void configure() {
 
+        errorHandler(deadLetterChannel("broker:queue:ActiveMQ.DLQ"));
+
         // Retry HTTP-related error conditions for longer (exponential backoff, delay)
         onException(HttpOperationFailedException.class)
                 .maximumRedeliveries("{{error.maxRedeliveries}}")
