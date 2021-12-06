@@ -51,9 +51,7 @@ public class DerivativeConnector extends RouteBuilder {
                 .redeliveryDelay("{{error.redeliveryDelay}}")
                 .backOffMultiplier("{{error.backoff}}")
                 .useExponentialBackOff()
-                .logRetryAttempted(true)
-                .retryAttemptedLogLevel(WARN)
-                .retriesExhaustedLogLevel(WARN)
+                .logRetryAttempted(false)
                 .useOriginalMessage()
                 .log(
                         WARN,
