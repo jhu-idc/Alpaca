@@ -43,7 +43,7 @@ public class DerivativeConnector extends RouteBuilder {
     @Override
     public void configure() {
 
-        errorHandler(deadLetterChannel("broker:queue:ActiveMQ.DLQ"));
+        errorHandler(deadLetterChannel("{{error.dlq}}"));
 
         // Retry HTTP-related error conditions for longer (exponential backoff, delay)
         onException(HttpOperationFailedException.class)
