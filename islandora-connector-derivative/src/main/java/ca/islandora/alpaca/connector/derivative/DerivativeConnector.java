@@ -65,7 +65,7 @@ public class DerivativeConnector extends RouteBuilder {
         onException(Exception.class)
             .maximumRedeliveries("{{error.maxRedeliveries}}")
             .log(
-                ERROR,
+                WARN,
                 LOGGER,
                 "Error connecting generating derivative with {{derivative.service.url}}: " +
                 "${exception.message}\n\n${exception.stacktrace}"
