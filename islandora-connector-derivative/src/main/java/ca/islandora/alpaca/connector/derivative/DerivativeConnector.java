@@ -43,7 +43,7 @@ public class DerivativeConnector extends RouteBuilder {
     @Override
     public void configure() {
 
-        errorHandler(deadLetterChannel("{{error.dlq}}"));
+        errorHandler(deadLetterChannel("{{error.dlq}}").disableRedelivery());
 
         // Retry HTTP-related error conditions for longer (exponential backoff, delay)
         onException(HttpOperationFailedException.class)
