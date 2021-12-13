@@ -43,15 +43,15 @@ public class DerivativeConnector extends RouteBuilder {
     @Override
     public void configure() {
 
+        errorHandler(deadLetterChannel("{{error.dlq}}"));
+
         // Retry HTTP-related error conditions for longer (exponential backoff, delay)
         onException(HttpOperationFailedException.class)
                 .maximumRedeliveries("{{error.maxRedeliveries}}")
                 .redeliveryDelay("{{error.redeliveryDelay}}")
                 .backOffMultiplier("{{error.backoff}}")
                 .useExponentialBackOff()
-                .logRetryAttempted(true)
-                .retryAttemptedLogLevel(WARN)
-                .retriesExhaustedLogLevel(WARN)
+                .logRetryAttempted(false)
                 .useOriginalMessage()
                 .log(
                         WARN,
@@ -65,7 +65,7 @@ public class DerivativeConnector extends RouteBuilder {
         onException(Exception.class)
             .maximumRedeliveries("{{error.maxRedeliveries}}")
             .log(
-                ERROR,
+                WARN,
                 LOGGER,
                 "Error connecting generating derivative with {{derivative.service.url}}: " +
                 "${exception.message}\n\n${exception.stacktrace}"

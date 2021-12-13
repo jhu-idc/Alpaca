@@ -11,6 +11,7 @@
   <cm:property-placeholder id="properties" persistent-id="ca.islandora.alpaca.connector.derivative" update-strategy="reload" >
     <cm:default-properties>
       <cm:property name="error.maxRedeliveries" value="5"/>
+      <cm:property name="error.dlq" value="log:dead?level=WARN"/>
       <cm:property name="in.stream" value="seda:islandora-connector.derivative-index"/>
       <cm:property name="derivative.service.url" value="http://example.org/derivative/convert"/>
     </cm:default-properties>

@@ -13,6 +13,7 @@
       <cm:property name="error.maxRedeliveries" value="5"/>
       <cm:property name="error.redeliveryDelay" value="1000"/>
       <cm:property name="error.backoff" value="1.2"/>
+      <cm:property name="error.dlq" value="log:dead?level=WARN"/>
       <cm:property name="in.stream" value="seda:islandora-connector.derivative-index"/>
       <cm:property name="derivative.service.url" value="http://example.org/derivative/convert"/>
     </cm:default-properties>
